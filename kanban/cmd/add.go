@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"learn-go/kanban/db"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -13,7 +15,12 @@ var addCmd = &cobra.Command{
 	Short: "To add a new task.",
 	Run: func(cmd *cobra.Command, args []string) {
 		task := strings.Join(args, " ")
-		fmt.Println(task)
+		_, err := db.CreateTask(task)
+		if err != nil {
+			fmt.Println("Something went wrong while creating the task.")
+			os.Exit(1)
+		}
+		fmt.Println("Task created successfully.")
 	},
 }
 
